@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head th:include="fragments :: head('CS:GO Lobby')"></head>
+    <body>
+        <nav th:include="fragments :: nav-main" />
+        <section class="columns">
+            <div class="column is-half is-offset-one-quarter" >
+                <div class="notification content" th:classappend="${cl}" >
+                    <h1 th:text="${msg}" />
+                    <a class="button is-info" th:href="@{/home}" th:text="#{home.buttonreturn}" />
+                </div>
+            </div>
+        </section>
+        <footer th:include='fragments :: footer' class="footer" />
+    </body>
+</html>

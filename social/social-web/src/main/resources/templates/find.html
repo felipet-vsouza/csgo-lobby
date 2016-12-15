@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head th:include="fragments :: head('CS:GO Lobby')"></head>
+    <body>
+        <nav th:include="fragments :: nav-main" />
+        <section class="container box">
+            <nav class="level" >
+                <div class="level-left">
+                    <div class="level-item">
+                        <p class="control has-addons">
+                            <input class="input" id="text-find" type="text" th:placeholder="#{find.find}" />
+                            <button class="button" id="submit-find" th:text="#{find.buttonfind}">
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </nav>
+        </section>
+        <section id="box-usuarios" class="container box content" th:include="fragments :: no-content">
+        </section>
+        <footer th:include='fragments :: footer' class="footer" />
+        <script th:src="@{/js/paginator.js}" />
+        <script th:src="@{/js/find.js}" />
+    </body>
+</html>

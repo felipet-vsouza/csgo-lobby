@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head th:fragment="head(title)">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css" />
+        <!--<link rel="stylesheet" th:href="@{/css/bulma.min.css}" />-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <!--<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" />-->
+        <title th:text="${title}"></title>
+    </head>
+
+    <body>
+
+        <header th:fragment="nav-main">
+            <section class="hero is-info" style="margin-bottom: 20px;">
+                <nav class="nav">
+                    <div class="nav-left is-hidden-touch">
+                        <a class="nav-item is-brand" th:href="@{/home}">
+                            <h1 class="title">
+                                <i class="fa fa-globe"></i> CS:GO Lobby
+                            </h1>
+                        </a>
+                    </div>
+                    <div class="nav-left is-hidden-desktop">
+                        <a class="nav-item is-brand" th:href="@{/home}">
+                            <h1 class="title is-5">
+                                <i class="fa fa-globe"></i> CS:GO Lobby
+                            </h1>
+                        </a>
+                    </div>
+                    <div class="nav-center">
+                        <a class="nav-item nav-icon" href="https://github.com/felipet-vsouza/crescer-2016-2">
+                            <span class="icon">
+                                <i class="fa fa-github"></i>
+                            </span>
+                        </a>
+                        <span id="cog-loader" class="icon is-large" style="display: none;">
+                            <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                        </span>
+                        <a class="nav-item nav-icon" href="http://steamcommunity.com/app/730">
+                            <span class="icon">
+                                <i class="fa fa-steam"></i>
+                            </span>
+                        </a>
+                    </div>
+
+                    <span id="nav-toggler" class="nav-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+
+                    <div id="nav-to-toggle" class="nav-right nav-menu">
+                        <span class="nav-item">
+                            <a class="button is-info" th:href="@{/home}">
+                                <span class="icon">
+                                    <i class="fa fa-home"></i>
+                                </span>
+                                <span th:text="#{nav.home}"/>
+                            </a>
+                            <a class="button is-info" th:href="@{/find}">
+                                <span class="icon">
+                                    <i class="fa fa-address-book"></i>
+                                </span>
+                                <span th:text="#{nav.findpeople}"/>
+                            </a>
+                            <a class="button is-warning" th:href="@{/logout}">
+                                <span class="icon">
+                                    <i class="fa fa-sign-out"></i>
+                                </span>
+                                <span th:text="#{nav.signout}"/>
+                            </a>
+                        </span>
+                    </div>
+                </nav>
+            </section>
+        </header>
+
+        <section th:fragment="header-login">
+            <div class="hero-body is-info">
+                <div class="container">
+                    <h1 class="title">
+                        <i class="fa fa-globe"></i> CS:GO Lobby
+                    </h1>
+                    <h2 class="subtitle" th:text="#{general.slogan}">
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <div th:fragment="no-content">
+            <h2 class="is-large" th:text="#{find.nocontent}"></h2>
+        </div>
+
+        <div th:fragment="usuarios">
+            <div th:include="fragments :: paginator(${lista}, '/find/user')" />
+            <article class="media" th:each="u : ${lista}">
+                <figure class="media-left">
+                    <p class="image is-4by2">
+                        <img th:src="@{${u.rank.imagePath}}" />
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <nav class="level">
+                        <div class="content">
+                            <p class="title is-5" th:text="${u.username}"></p>
+                            <p class="subtitle is-6" th:text="${u.email}"></p>
+                            <strong>Rank: </strong>
+                            <p th:text="${u.rank.description}" />
+                            <small th:text="'#' + ${u.rank.sequence} + ' ' + #{find.totalranks}" />
+                        </div>
+                        <div class="level-right">
+                            <a class="button is-primary is-medium" th:href="@{'/home/adduser/' + ${u.id}}">
+                                <span class="icon">
+                                    <i class="fa fa-plus" />
+                                </span>
+                                <span th:text="#{find.add}" />
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </article>
+        </div>
+
+
+        <div th:fragment="listposts">
+            <article class="container content box is-fluid" th:each="p : ${posts}" style="margin-bottom: 20px;">
+                <section class="level">
+                    <div class="level-left">
+                        <h1 class="title level-item" th:text="${p.titulo}"></h1>
+                    </div>
+                    <div class="level-right">
+                        <h3 class="subtitle level-item">
+                            <span th:text="#{home.postcaption}">
+                            </span>
+                            <span>
+                                <strong th:text="${p.usuario.username}"/>
+                            </span>
+                        </h3>
+                    </div>
+                </section>
+                <p th:text="${p.corpo}"/>
+            </article>
+        </div>    
+
+        <footer th:fragment="footer">
+            <div class="container">
+                <div class="content has-text-centered">
+                    <p>
+                        <strong>CS:GO Lobby</strong> by <a href="https://github.com/felipet-vsouza">Felipe Thomas Vargas de Souza</a>.
+                    </p>
+                    <p>
+                        The source code is licensed:
+                        <a href="https://www.cwi.com.br/Empresa/Crescer">Projeto CRESCER</a>. The website content is licensed by
+                        <a href="http://store.steampowered.com/">
+                            Steam
+                            <i class="fa fa-steam"></i>
+                        </a>.
+                    </p>
+                    <p> Project found on
+                        <a class="icon" href="https://github.com/felipet-vsouza/crescer-2016-2">
+                            <i class="fa fa-github"></i>
+                        </a>.
+                    </p>
+                </div>
+            </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <!--<script th:src="@{/js/jquery.min.js}" />-->
+            <script th:src="@{/js/_start.js}"></script>
+        </footer>
+
+        <div th:fragment="paginator(list, page)">
+            <nav class="pagination has-text-centered">
+                <a id="butprev" th:class="${list.first} ? 'button is-disabled' : 'button'">
+                    <span class="icon">
+                        <i class="fa fa-arrow-left" />
+                    </span>
+                </a>
+                <a id="butnext" th:class="${list.last} ? 'button is-disabled' : 'button'">
+                    <span class="icon">
+                        <i class="fa fa-arrow-right" />
+                    </span>
+                </a>
+                <ul th:if="${not #lists.isEmpty(list) and list.totalPages > 1 }">
+                    <li style="list-style: none;" th:if="${not (list.first or (list.number - 1 eq 0))}" >
+                        <a class="button is-primary pagbutton">0</a>
+                    </li>
+                    <li style="list-style: none;" th:if="${not (list.first or (list.number - 1 eq 0))}" >
+                        ...
+                    </li>
+                    <li style="list-style: none;" th:unless="${list.first}"  >
+                        <a class="button is-primary pagbutton" th:text="${list.number - 1}"></a>
+                    </li>
+                    <li style="list-style: none;">
+                        <a id="curpage" class="button is-info" th:text="${list.number}" />
+                    </li>
+                    <li style="list-style: none;" th:unless="${list.last}"  >
+                        <a class="button is-primary pagbutton" th:text="${list.number + 1}"></a>
+                    </li>
+                    <li style="list-style: none;" th:if="${not (list.last or (list.number + 1 eq list.totalPages - 1))}"  >
+                        ...
+                    </li>
+                    <li style="list-style: none;" th:if="${not (list.last or (list.number + 1 eq list.totalPages - 1))}"  >
+                        <a class="button is-primary pagbutton" th:text="${list.totalPages - 1}"></a>
+                    </li>
+                </ul>
+            </nav>
+            <section class="level box" style="margin:20px 0;">
+                <div class="level-left">
+                    <div class="level-item">
+                        <p class="subtitle is-5" th:text="#{paginator.totalpages}" />
+                    </div>
+                    <div class="level-item">
+                        <p class="subtitle is-5">
+                            <strong id="totalpages" th:text="${list.totalPages}" />
+                        </p>
+                    </div>
+                    <div class="level-item">
+                        <p class="subtitle is-5" th:text="#{paginator.totalresults}" />
+                    </div>
+                    <div class="level-item">
+                        <p class="subtitle is-5">
+                            <strong id="totalsize" th:text="${list.size}" />
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </body>
+
+</html>

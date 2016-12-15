@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head th:include="fragments :: head('CS:GO Lobby')"></head>
+    <body>
+        <nav th:include="fragments :: nav-main" />
+        <article class="content has-text-centered">
+            <h1>
+                <span th:text="#{home.feedtitle}" />
+                <strong th:text="${sessao.username}" />
+            </h1>
+            <p th:text="#{home.currentrank} + ${sessao.rank.description}"/>
+            <img th:src="@{${sessao.rank.imagePath}}" />
+        </article>
+        <section class="container box">
+            <nav class="level" >
+                <div class="level-left">
+                    <div class="level-item">
+                        <p class="subtitle is-5">
+                            <strong th:text="${convitesPendentes}" />
+                            <span th:text="#{home.pendent}" />
+                        </p>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a class="button is-primary" th:href="@{/invites}" th:classAppend="${convitesPendentes eq 0} ? 'is-disabled'">
+                            <span class="icon">
+                                <i class="fa fa-check" />
+                            </span>
+                            <span th:text="#{home.manage}"/>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </section>
+        <section class="container box">
+            <nav class="level" >
+                <div class="level-left">
+                    <div class="level-item">
+                        <p class="subtitle is-5">
+                            <strong id="totalposts" th:text="${totalPosts}"></strong> posts
+                        </p>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div th:unless="${sessao.rank.sequence eq 1}" class="level-item">
+                        <a class="button is-danger" th:href="@{/user/rankdown}">
+                            <span class="icon">
+                                <i class="fa fa-arrow-down" />
+                            </span>
+                            <span th:text="#{home.downpromotion}"/>
+                        </a>
+                    </div>
+                    <div th:unless="${sessao.rank.sequence eq 18}" class="level-item">
+                        <a class="button is-success" th:href="@{/user/rankup}">
+                            <span class="icon">
+                                <i class="fa fa-arrow-up" />
+                            </span>
+                            <span th:text="#{home.uppromotion}"/>
+                        </a>
+                    </div>
+                    <div class="level-item">
+                        <a id="newpost-button" class="button is-primary">
+                            <span class="icon">
+                                <i class="fa fa-plus" />
+                            </span>
+                            <span th:text="#{home.post}"/>
+                        </a>
+                    </div>
+                    <p class="level-item">
+                        <a id="refresh-posts" class="button is-primary">
+                            <span class="icon">
+                                <i class="fa fa-refresh" />
+                            </span>
+                            <span th:text="#{home.refresh}"/>
+                        </a>
+                    </p>
+                </div>
+            </nav>
+        </section>
+        <article id="newpost-form" class="box container" style="display: none;">
+            <nav class="level">
+                <div class="level-right">
+                    <span class="level-item content">
+                        <h1 class="is-large">
+                            <strong th:text="#{post.newpost}" />
+                        </h1>
+                    </span>
+                </div>
+                <div class="level-left">
+                    <a class="button is-danger" id="newpost-close">
+                        <span class="icon">
+                            <i class="fa fa-times" />
+                        </span>
+                    </a>
+                </div>
+            </nav>
+            <div>
+                <div class="control">
+                    <label class="label" th:text="#{post.title}"></label>
+                    <input id="newpost-titulo" class="input" type="text" name="titulo"/> 
+                </div>
+                <div class="control">
+                    <label class="label" th:text="#{post.body}"></label>
+                    <textarea id="newpost-corpo" class="input" type="text" name="corpo" style="height: 100px;"/> 
+                </div>
+                <div class="control">
+                    <button id="newpost-submit" class="button is-success" th:text="#{post.post}" />
+                </div>
+                <div id="caption" class="subtitle">
+                </div>
+            </div>
+        </article>
+        <div id="postlist" >
+            <article class="container content box is-fluid" th:each="p : ${posts}" style="margin-bottom: 20px;">
+                <section class="level">
+                    <div class="level-left">
+                        <h1 class="title level-item" th:text="${p.titulo}"></h1>
+                    </div>
+                    <div class="level-right">
+                        <h3 class="subtitle level-item">
+                            <span th:text="#{home.postcaption}">
+                            </span>
+                            <span>
+                                <strong th:text="${p.usuario.username}"/>
+                            </span>
+                        </h3>
+                    </div>
+                </section>
+                <p th:text="${p.corpo}"/>
+            </article>
+        </div>
+        <footer th:include='fragments :: footer' class="footer" />
+        <script th:src="@{/js/home.js}" />
+    </body>
+</html>

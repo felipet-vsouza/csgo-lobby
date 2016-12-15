@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head th:include="fragments :: head('CS:GO Lobby')"></head>
+    <body class="has-text-centered">
+        <header th:include="fragments :: header-login" class="hero" style="margin-bottom: 20px;"></header>
+        <section>
+            <div class="box column is-offset-one-third is-one-third container ">
+                <div class="content">
+                    <h2 class="is-large" th:text="#{login.formLogin}" />
+                    <p class="is-medium" th:text="#{login.formSuggestion}" />
+                    <article th:if="${param.error}" class="tile is-parent notification is-danger">
+                        <strong class="subtitle" th:text="#{login.erro}"></strong>
+                        <p class="subtitle" th:text="': ' + #{login.msgerro}"></p>
+                    </article>
+                    <article th:if="${param.logout}" class="tile is-parent notification is-warning">
+                        <strong class="subtitle" th:text="#{login.alerta}"></strong>
+                        <p class="subtitle" th:text="': ' + #{login.msglogout}"></p>
+                    </article>
+                </div>
+                <form th:action="@{/login}" th:object="${usuario}" method="POST">
+                    <div class="control">
+                        <label class="label" th:text="#{login.email}"></label>
+                        <input class="input" type="text" name="username"/> 
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="helper is-danger"></span>
+                    </div>
+                    <div class="control">
+                        <label class="label" th:text="#{login.senha}"></label>
+                        <input class="input" type="password" name="password"/> 
+                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="helper is-danger"></span>
+                    </div>
+
+                    <div class="control">
+                        <input class="button is-primary" type="submit" th:value="#{login.button}" />
+                    </div>
+                </form>
+            </div>
+            <div class="box column is-offset-one-third is-one-third container">
+                <div class="content">
+                    <h2 class="is-large" th:text="#{cadastro.formLogin}" />
+                    <p class="is-medium" th:text="#{cadastro.formSuggestion}" />
+                    <article th:if="${cadmsg}" class="tile is-parent notification is-info">
+                        <strong class="subtitle" th:text="#{cadastro.aviso}"></strong>
+                        <p class="subtitle" th:text="': ' + ${cadmsg}"></p>
+                    </article>
+                    <article th:if="${fielderr}" class="tile is-parent notification is-danger">
+                        <strong class="subtitle" th:text="#{cadastro.erro}"></strong>
+                        <p class="subtitle" th:text="': ' + ${fielderr}"></p>
+                    </article>
+                </div>
+                <form th:action="@{/add}" th:object="${usuario}" method="POST">
+                    <div class="control">
+                        <label class="label" th:text="#{cadastro.username}"></label>
+                        <input class="input" type="text" name="username"/> 
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="helper is-danger"></span>
+                    </div>
+                    <div class="control">
+                        <label class="label" th:text="#{cadastro.email}"></label>
+                        <input class="input" type="email" name="email"/> 
+                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="helper is-danger"></span>
+                    </div>
+                    <div class="control">
+                        <label class="label" th:text="#{cadastro.senha}"></label>
+                        <input class="input" type="password" name="password"/> 
+                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="helper is-danger"></span>
+                    </div>
+                    <div class="control">
+                        <label class="label" th:text="#{cadastro.rank}"></label>
+                        <span class="select">
+                            <select id="rank" th:field="*{rank}">
+                                <option th:each="r : ${ranks}" th:value="${r.id}" th:text="${r.description}" />
+                            </select>
+                        </span>
+                        <span th:if="${#fields.hasErrors('rank')}" th:errors="*{rank}" class="helper is-danger"></span>
+                    </div>
+
+                    <input type="hidden" th:field="*{amigos}" th:value="${usuario.amigos}" /> 
+                    
+                    <input type="hidden" th:field="*{convites}" th:value="${usuario.convites}" /> 
+
+                    <div class="control">
+                        <input class="button is-success" type="submit" th:value="#{cadastro.button}" />
+                    </div>
+                </form>
+            </div>
+        </section>
+        <footer th:include="fragments :: footer" class="hero footer" />
+    </body>
+</html>

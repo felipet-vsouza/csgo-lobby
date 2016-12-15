@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head th:include="fragments :: head('CS:GO Lobby')"></head>
+    <body>
+        <nav th:include="fragments :: nav-main" />
+        <article class="content has-text-centered">
+            <h1>
+                <span th:text="#{home.invitestitle}" />
+                <strong th:text="${sessao.username}" />
+            </h1>
+        </article>
+        <section th:if="${sessao.convites.empty}" class="container box content" th:include="fragments :: no-content" />
+        <section th:unless="${sessao.convites.empty}" id="box-usuarios" class="container box content">
+            <article class="media" th:each="u : ${sessao.convites}">
+                <figure class="media-left">
+                    <p class="image is-4by2">
+                        <img th:src="@{${u.rank.imagePath}}" />
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <nav class="level">
+                        <div class="content">
+                            <p class="title is-5" th:text="${u.username}"></p>
+                            <p class="subtitle is-6" th:text="${u.email}"></p>
+                            <strong>Rank: </strong>
+                            <p th:text="${u.rank.description}" />
+                            <small th:text="'#' + ${u.rank.sequence} + ' ' + #{find.totalranks}" />
+                        </div>
+                        <div class="level-right">
+                            <a class="is-hidden-touch button is-success is-medium level-item" th:href="@{'/invites/accept/' + ${u.id}}">
+                                <span class="icon">
+                                    <i class="fa fa-check" />
+                                </span>
+                                <span th:text="#{home.accept}" />
+                            </a>
+                            <a class="is-hidden-touch button is-danger is-medium level-item" th:href="@{'/invites/deny/' + ${u.id}}">
+                                <span class="icon">
+                                    <i class="fa fa-times" />
+                                </span>
+                                <span th:text="#{home.deny}" />
+                            </a>
+                            <a class="is-hidden-desktop button is-success is-small level-item" th:href="@{'/invites/accept/' + ${u.id}}">
+                                <span class="icon">
+                                    <i class="fa fa-check" />
+                                </span>
+                                <span th:text="#{home.accept}" />
+                            </a>
+                            <a class="is-hidden-desktop button is-danger is-small level-item" th:href="@{'/invites/deny/' + ${u.id}}">
+                                <span class="icon">
+                                    <i class="fa fa-times" />
+                                </span>
+                                <span th:text="#{home.deny}" />
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </article>
+        </section>
+        <footer th:include='fragments :: footer' class="footer" />
+    </body>
+</html>

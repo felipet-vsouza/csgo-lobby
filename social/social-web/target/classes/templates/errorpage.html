@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head th:include="fragments :: head('CS:GO Lobby')"></head>
+    <body>
+        <nav th:include="fragments :: nav-main" />
+        <section class="container content is-large box has-text-centered">
+            <h1 th:text="#{errorpage.title}"></h1>
+            <span class="icon is-large">
+                <i class="fa fa-safari" />
+            </span>
+            <h3 th:text="#{errorpage.joke}"></h3>
+            <p th:text="#{errorpage.captcha}"></p>
+            <a class="is-success button is-medium" th:text="#{errorpage.buttonreturn}" th:href="@{/home}" />
+        </section>
+        <footer th:include='fragments :: footer' class="footer" />
+    </body>
+</html>
